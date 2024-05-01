@@ -32,3 +32,37 @@
 
 ## Архитектура
 
+### Объекты БД
+
+- `User`: пользователь сайта
+- `Username`: имя пользователя Telegram
+- `Update`: обновление статуса (время, имя пользователя и новый статус)
+
+### Работа с API Telegram
+
+#### `APIManager`
+
+- `__init__` &mdash; инициализирует сессию
+- `user_exists(username: Username) -> bool` &mdash; существует ли пользователь
+- `get_bio(usernames: Iterable[Username]) -> Iterable[Update]` &mdash; запрашивает статусы пользователей
+
+### Авторизация
+
+- `load_user(id: int) -> User` &mdash; ищет пользователя в БД
+- `login_user()`, `logout_user()` из `flask_login`
+
+### Страницы и шаблоны
+
+- /auth/login, /auth/register &mdash; авторизация
+- /profile &mdash; страница пользователя
+- /updates &mdash; все отслеживаемые пользователи
+- /updates/\<username> &mdash; страница обновлений пользователя
+
+### Формы
+
+- `LoginForm`, `RegistrationForm` &mdash; авторизация
+- `AddUsernameForm` &mdash; добавление пользователя в список отслеживаемых
+
+#### Валидаторы
+
+- `UserExists`
