@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, flash, request
 import sqlalchemy as sa
 from app.models import Username, Update, User
 from app.forms import *
-from update_user import update_user
+from app.update_user import update_user
 from flask_login import current_user, login_user, login_required, logout_user
 
 

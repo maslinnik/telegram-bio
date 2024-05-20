@@ -1,9 +1,12 @@
-from app import db
+import time
+
+from app import app, db
 from app.models import Username
-from update_user import update_users
+from app.update_user import update_users
 import signal
 from threading import Event
 
+app.app_context().push()
 
 exit = Event()
 
@@ -19,7 +22,7 @@ def main():
             print(e)
         else:
             print(f'Updated {len(users)} users')
-        exit.wait(60)
+        exit.wait(10)
 
 
 def quit(*_):

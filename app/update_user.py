@@ -1,9 +1,6 @@
-from time import sleep
 from app import app, db, api_manager
 from app.models import Username, Update
 import sqlalchemy as sa
-import asyncio
-from api_manager import APIManager
 from typing import Iterable
 
 app.app_context().push()
