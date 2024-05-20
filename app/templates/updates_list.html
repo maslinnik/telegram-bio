@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ user.username }}'s Bio Updates</h1>
+    {% if show_admin %}
+    <form action="{{ url_for('force_update', username=user.username) }}" method="post" novalidate>
+        {{ force_update_form.hidden_tag() }}
+        {{ force_update_form.submit() }}
+    </form>
+    {% endif %}
+    {% for update, remove_form in updates_data %}
+    <div>
+        <p>
+        <i>{{ update.timestamp.strftime('%d %b %Y, %H:%M') }}</i>:
+        {{ update.user.username }} changed their bio to <b>{{ update.body }}</b>
+        </p>
+        {% if show_admin %}
+        <form action="{{ url_for('updates_remove', username=user.username) }}" method="post" novalidate>
+            {{ remove_form.hidden_tag() }}
+            {{ remove_form.id(value=update.id, type="hidden") }}
+            {{ remove_form.submit() }}
+        </form>
+        {% endif %}
+    </div>
+    {% endfor %}
+{% endblock %}
