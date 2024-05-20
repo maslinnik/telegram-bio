@@ -46,7 +46,7 @@ class WebScraper(APIManager):
         if name_obj is None or preview_obj is not None or bio_obj is None:
             return ''
         delimiter = '\0'
-        for line_break in bio_obj.findAll('br'):  # loop through line break tags
+        for line_break in bio_obj.findAll('br'):
             line_break.replaceWith(delimiter)
         return bio_obj.text.replace(delimiter, '\n')
 
