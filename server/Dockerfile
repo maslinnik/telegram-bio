@@ -8,6 +8,7 @@ COPY app app
 COPY main.py config.py boot.sh init.py ./
 RUN chmod a+x boot.sh
 
+RUN mkdir db
 RUN touch db/app.db
 
 ENV FLASK_APP main.py

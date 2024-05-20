@@ -12,6 +12,8 @@ services:
     volumes:
       - db:/db
   updater:
+    environment:
+      - DATABASE_URL=sqlite:////db/app.db
     build:
       context: ./
       dockerfile: updater/Dockerfile

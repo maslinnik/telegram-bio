@@ -22,7 +22,7 @@ def main():
             print(e)
         else:
             print(f'Updated {len(users)} users')
-        exit.wait(10)
+        exit.wait(60)
 
 
 def quit(*_):
