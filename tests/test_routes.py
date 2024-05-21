@@ -1,7 +1,7 @@
-import os
-import unittest
-from app import app, db
+from flask_login import login_user
 from test_model import TestCaseModel
+from app.models import User
+from app import db, app
 
 
 class TestRoutes(TestCaseModel):

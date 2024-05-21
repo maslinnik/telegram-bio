@@ -57,11 +57,12 @@ def updates_remove_user():
     form = RemoveUserForm()
     if form.validate_on_submit():
         user = db.session.query(Username).where(Username.id == form.id.data).first()
-        user_updates = db.session.query(Update).where(Update.user == user).all()
-        if len(user_updates) > 0:
-            db.session.delete(*user_updates)
-        db.session.delete(user)
-        db.session.commit()
+        if user is not None:
+            user_updates = db.session.query(Update).where(Update.user == user).all()
+            if len(user_updates) > 0:
+                db.session.delete(*user_updates)
+            db.session.delete(user)
+            db.session.commit()
     return redirect(url_for('updates_hub'))
 
 
@@ -71,8 +72,9 @@ def updates_monitor_user():
     form = StartMonitoringUserForm()
     if form.validate_on_submit():
         user = db.session.query(Username).where(Username.id == form.id.data).first()
-        user.monitored = True
-        db.session.commit()
+        if user is not None:
+            user.monitored = True
+            db.session.commit()
     return redirect(url_for('updates_hub'))
 
 
@@ -82,8 +84,9 @@ def updates_unmonitor_user():
     form = StopMonitoringUserForm()
     if form.validate_on_submit():
         user = db.session.query(Username).where(Username.id == form.id.data).first()
-        user.monitored = False
-        db.session.commit()
+        if user is not None:
+            user.monitored = False
+            db.session.commit()
     return redirect(url_for('updates_hub'))
 
 
@@ -118,21 +121,22 @@ def updates_remove(username):
     if form.validate_on_submit():
         user = db.first_or_404(sa.select(Username).where(Username.username == username))
         update = db.session.query(Update).where(Update.id == form.id.data).first()
-        next_update = (db.session.query(Update)
-                       .where(Update.user == update.user)
-                       .order_by(Update.timestamp)
-                       .filter(Update.timestamp > update.timestamp)
-                       .first())
-        prev_update = (db.session.query(Update)
-                       .where(Update.user == update.user)
-                       .order_by(Update.timestamp.desc())
-                       .filter(Update.timestamp < update.timestamp)
-                       .first())
-        if update.user == user:
-            db.session.delete(update)
-            if next_update is not None and prev_update is not None and prev_update.body == next_update.body:
-                db.session.delete(next_update)
-            db.session.commit()
+        if update is not None:
+            next_update = (db.session.query(Update)
+                           .where(Update.user == update.user)
+                           .order_by(Update.timestamp)
+                           .filter(Update.timestamp > update.timestamp)
+                           .first())
+            prev_update = (db.session.query(Update)
+                           .where(Update.user == update.user)
+                           .order_by(Update.timestamp.desc())
+                           .filter(Update.timestamp < update.timestamp)
+                           .first())
+            if update.user == user:
+                db.session.delete(update)
+                if next_update is not None and prev_update is not None and prev_update.body == next_update.body:
+                    db.session.delete(next_update)
+                db.session.commit()
     return redirect(url_for('updates_list', username=username))
 
 
