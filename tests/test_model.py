@@ -1,6 +1,6 @@
-import os
 import unittest
 from app import app, db
+from app.models import User
 
 
 class TestCaseModel(unittest.TestCase):
@@ -16,3 +16,13 @@ class TestCaseModel(unittest.TestCase):
         db.session.remove()
         db.drop_all()
         self.app_context.pop()
+
+    def _send_auth_request(self):
+        user = User(username="admin")
+        user.set_password("admin")
+        db.session.add(user)
+        db.session.commit()
+        self.client.post("/auth/login", data={
+            "username": "admin",
+            "password": "admin",
+        })
