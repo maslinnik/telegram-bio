@@ -2,7 +2,7 @@ from flask import Flask
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from app.api_manager import APIManager, WebScraper
+from app.api_managers import APIManager, WebScraper
 
 app = Flask(__name__)
 login = LoginManager(app)

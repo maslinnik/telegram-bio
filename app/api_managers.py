@@ -28,18 +28,18 @@ class APIManager(ABC):
 
 
 class WebScraper(APIManager):
-    def __get_tgme_soup(self, username: str) -> BeautifulSoup:
+    def _get_tgme_soup(self, username: str) -> BeautifulSoup:
         r = requests.get(f'https://t.me/{username}')
         return BeautifulSoup(r.text, features="html.parser")
 
     def user_exists(self, username: str) -> bool:
-        soup = self.__get_tgme_soup(username)
+        soup = self._get_tgme_soup(username)
         name_obj = soup.find('div', {'class': 'tgme_page_title'})
         preview_obj = soup.find('div', {'class': 'tgme_page_context_link_wrap'})
         return name_obj is not None and preview_obj is None
 
     def get_bio(self, username: str) -> str:
-        soup = self.__get_tgme_soup(username)
+        soup = self._get_tgme_soup(username)
         name_obj = soup.find('div', {'class': 'tgme_page_title'})
         preview_obj = soup.find('div', {'class': 'tgme_page_context_link_wrap'})
         bio_obj = soup.find('div', {'class': 'tgme_page_description'})

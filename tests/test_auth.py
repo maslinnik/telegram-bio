@@ -56,7 +56,7 @@ class TestAuth(TestCaseModel):
             response = self.client.post("/updates/username/remove", data={"id": 13})
             self.assertEqual(response.status_code, 401)
 
-    @patch('app.api_manager.WebScraper.get_bio')
+    @patch('app.api_managers.WebScraper.get_bio')
     def test_updates_edit_updates_authorized(self, get_bio_call: Mock):
         get_bio_call.return_value = "some_bio"
         with self.client:

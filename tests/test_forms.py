@@ -1,7 +1,8 @@
 from test_model import TestCaseModel
 from app.models import User, Username, Update
-from app import db, app
+from app import db
 from unittest.mock import patch, Mock
+from bs4 import BeautifulSoup
 
 
 class TestForms(TestCaseModel):
@@ -48,7 +49,7 @@ class TestForms(TestCaseModel):
             self.assertEqual(db.session.query(Username).first().monitored, True)
 
     @patch('app.forms.UserExists.__call__')
-    @patch('app.api_manager.WebScraper.get_bio')
+    @patch('app.api_managers.WebScraper.get_bio')
     def test_force_update(self, get_bio_call: Mock, _):
         with self.client:
             self._send_auth_request()
@@ -66,7 +67,7 @@ class TestForms(TestCaseModel):
             self.assertEqual(list(map(lambda u: u.body, updates)), ["bio_sample", "another_bio_sample"])
 
     @patch('app.forms.UserExists.__call__')
-    @patch('app.api_manager.WebScraper.get_bio')
+    @patch('app.api_managers.WebScraper.get_bio')
     def test_delete_update(self, get_bio_call: Mock, _):
         with (self.client):
             self._send_auth_request()
