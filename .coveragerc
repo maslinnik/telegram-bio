@@ -9,3 +9,6 @@ exclude_also =
 
     # Ignore abstract methods
     pass
+
+    # Ignore unusable API methods
+    class MTProtoAPIManager
