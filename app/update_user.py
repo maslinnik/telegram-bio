@@ -3,8 +3,6 @@ from app.models import Username, Update
 import sqlalchemy as sa
 from typing import Iterable
 
-app.app_context().push()
-
 
 def update_users(users: Iterable[Username]):
     bio_list = api_manager.get_bio_batch([user.username for user in users])

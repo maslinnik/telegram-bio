@@ -4,7 +4,7 @@ import sqlalchemy as sa
 from app.models import Username, Update, User
 from app.forms import *
 from app.update_user import update_user
-from flask_login import current_user, login_user, login_required, logout_user
+from flask_login import current_user, login_user, login_required, logout_user, fresh_login_required
 
 
 @app.route('/')
@@ -40,7 +40,7 @@ def updates_hub():
 
 
 @app.route('/updates/add_user', methods=['POST'])
-@login_required
+@fresh_login_required
 def updates_add_user():
     form = AddUserForm()
     if form.validate_on_submit():
@@ -52,7 +52,7 @@ def updates_add_user():
 
 
 @app.route('/updates/remove_user', methods=['POST'])
-@login_required
+@fresh_login_required
 def updates_remove_user():
     form = RemoveUserForm()
     if form.validate_on_submit():
@@ -67,7 +67,7 @@ def updates_remove_user():
 
 
 @app.route('/updates/monitor_user', methods=['POST'])
-@login_required
+@fresh_login_required
 def updates_monitor_user():
     form = StartMonitoringUserForm()
     if form.validate_on_submit():
@@ -79,7 +79,7 @@ def updates_monitor_user():
 
 
 @app.route('/updates/unmonitor_user', methods=['POST'])
-@login_required
+@fresh_login_required
 def updates_unmonitor_user():
     form = StopMonitoringUserForm()
     if form.validate_on_submit():
@@ -105,7 +105,7 @@ def updates_list(username):
 
 
 @app.route('/updates/<username>/force', methods=['POST'])
-@login_required
+@fresh_login_required
 def force_update(username):
     form = ForceUpdateForm()
     if form.validate_on_submit():
@@ -115,7 +115,7 @@ def force_update(username):
 
 
 @app.route('/updates/<username>/remove', methods=['POST'])
-@login_required
+@fresh_login_required
 def updates_remove(username):
     form = RemoveUpdateForm()
     if form.validate_on_submit():
@@ -162,6 +162,6 @@ def logout():
 
 
 @app.route('/profile')
-@login_required
+@fresh_login_required
 def profile():
     return render_template('profile.html', username=current_user.username, title='My Profile')

@@ -6,8 +6,6 @@ from app.update_user import update_users
 import signal
 from threading import Event
 
-app.app_context().push()
-
 exit = Event()
 
 
@@ -15,8 +13,9 @@ def main():
     while not exit.is_set():
         print('Starting to update')
         try:
-            users = db.session.query(Username).filter(Username.monitored == True).all()
-            update_users(users)
+            with app.app_context():
+                users = db.session.query(Username).filter(Username.monitored == True).all()
+                update_users(users)
         except Exception as e:
             print('Following exception occurred:')
             print(e)
