@@ -34,6 +34,19 @@ docker compose up
 
 В файле `.env` можно задать логин и пароль от панели администратора, а также внешний порт.
 
+### Запуск тестов
+
+```shell
+python -m unittest discover -s tests
+```
+
+Покрытие:
+
+```shell
+coverage run -m unittest discover -s tests
+coverage report -m
+```
+
 ## Внутреннее устройство
 
 ### Используемые технологии
