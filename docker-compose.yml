@@ -1,14 +1,14 @@
 services:
   server:
     environment:
-      - ADMIN_LOGIN=admin
-      - ADMIN_PASSWORD=admin
+      - ADMIN_LOGIN=${ADMIN_LOGIN}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - DATABASE_URL=sqlite:////db/app.db
     build:
       context: ./
       dockerfile: server/Dockerfile
     ports:
-      - 8000:5000
+      - ${HOST_PORT}:5000
     volumes:
       - db:/db
   updater:
