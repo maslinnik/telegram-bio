@@ -53,8 +53,6 @@ coverage report -m
 
 - Flask &mdash; веб-фреймворк
 
-- PostgreSQL &mdash; БД
-
 - SQLAlchemy &mdash; библиотека для работы с БД
 
 - telethon &mdash; библиотека для работы с API Telegram
