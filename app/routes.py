@@ -59,8 +59,8 @@ def updates_remove_user():
         user = db.session.query(Username).where(Username.id == form.id.data).first()
         if user is not None:
             user_updates = db.session.query(Update).where(Update.user == user).all()
-            if len(user_updates) > 0:
-                db.session.delete(*user_updates)
+            for u in user_updates:
+                db.session.delete(u)
             db.session.delete(user)
             db.session.commit()
     return redirect(url_for('updates_hub'))
