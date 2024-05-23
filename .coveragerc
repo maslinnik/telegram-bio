@@ -1,0 +1,14 @@
+[run]
+include =
+    app/*
+
+[report]
+exclude_also =
+    # Debug methods
+    def __repr__
+
+    # Ignore abstract methods
+    pass
+
+    # Ignore unusable API methods
+    class MTProtoAPIManager

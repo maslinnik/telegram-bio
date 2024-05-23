@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Monitored usernames</h1>
+    {% for user, updates, toggle_monitor_form, remove_form in monitored_data %}
+    <div>
+        <p>
+        {% if updates|length > 0 %}
+        <a href="{{ url_for('updates_list', username=user.username) }}"><b>{{ user.username }}</b></a>:
+        {{ updates|length }} update{% if updates|length > 1 %}s{% endif %},
+        starting <i>{{ updates[0].timestamp.strftime('%d %b %Y, %H:%M') }}</i>
+        {% else %}
+        <a href="{{ url_for('updates_list', username=user.username) }}"><b>{{ user.username }}</b></a>: no updates yet
+        {% endif %}
+        </p>
+        {% if show_admin %}
+        <form action="{{ url_for('updates_unmonitor_user') }}" method="post" novalidate>
+            {{ toggle_monitor_form.hidden_tag() }}
+            {{ toggle_monitor_form.id(value=user.id, type="hidden") }}
+            {{ toggle_monitor_form.submit() }}
+        </form>
+        <form action="{{ url_for('updates_remove_user') }}" method="post" novalidate>
+            {{ remove_form.hidden_tag() }}
+            {{ remove_form.id(value=user.id, type="hidden") }}
+            {{ remove_form.submit() }}
+        </form>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <h1>Unmonitored usernames</h1>
+    {% for user, updates, toggle_monitor_form, remove_form in unmonitored_data %}
+    <div>
+        <p>
+        {% if updates|length > 0 %}
+        <a href="{{ url_for('updates_list', username=user.username) }}"><b>{{ user.username }}</b></a>:
+        {{ updates|length }} update{% if updates|length > 1 %}s{% endif %},
+        starting <i>{{ updates[0].timestamp.strftime('%d %b %Y, %H:%M') }}</i>
+        {% else %}
+        <a href="{{ url_for('updates_list', username=user.username) }}"><b>{{ user.username }}</b></a>: no updates yet
+        {% endif %}
+        </p>
+        {% if show_admin %}
+        <form action="{{ url_for('updates_monitor_user') }}" method="post" novalidate>
+            {{ toggle_monitor_form.hidden_tag() }}
+            {{ toggle_monitor_form.id(value=user.id, type="hidden") }}
+            {{ toggle_monitor_form.submit() }}
+        </form>
+        <form action="{{ url_for('updates_remove_user') }}" method="post" novalidate>
+            {{ remove_form.hidden_tag() }}
+            {{ remove_form.id(value=user.id, type="hidden") }}
+            {{ remove_form.submit() }}
+        </form>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% if show_admin %}
+    <h1>Add usernames</h1>
+    <form action="{{ url_for('updates_add_user') }}" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    {% endif %}
+{% endblock %}
